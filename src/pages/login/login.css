@@ -23,14 +23,34 @@ html{
   background-color: white;
 }
 
-/* .MuiTextField-root, .MuiButton-root{
-  width: 350px;
-} */
+.fundooHeader{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 40px;
+}
+.f, .d{
+  color: #256cdf;
+}
+
+.u {
+  color: red;
+}
+
+.n{
+  color: #F4B400;
+}
+
+.o{
+  color: #0F9D58;
+}
+
+.oo{
+  color: red;
+}
 
 #text-field{
   display: grid;
-  white-space: pre;
-  
 }
 #textbox1{
   width: 350px;
@@ -50,6 +70,10 @@ html{
 
 #signup{
   padding-left: 40px;
+}
+
+#forgotmsg{
+  margin-left: 290px;
 }
 
 #msg {

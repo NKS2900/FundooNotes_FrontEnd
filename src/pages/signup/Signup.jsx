@@ -9,6 +9,14 @@ class Signup extends Component{
         return(
             <div className="containers">
                 <Card className="signup">
+                <div className="fundooHeader">
+                      <div className="f">F</div>
+                      <div className="u">u</div>
+                      <div className="n">n</div>
+                      <div className="d">d</div>
+                      <div className="o">o</div>
+                      <div className="oo">o</div>
+                    </div>
                     <div id="name">
                     <div id="fname"><TextField  label="First Name" required variant="outlined" /></div>
                     <div id="lname"><TextField  label="Last Name" required variant="outlined" /></div>

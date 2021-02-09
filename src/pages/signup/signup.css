@@ -1,0 +1,50 @@
+
+
+html{
+    background-color: whitesmoke;
+  }
+
+#name{
+    display: flex;
+    justify-content: space-around;
+}
+
+#email {
+    width: 400px;
+}
+
+#password ,#cpassword{
+    width: 370px;
+}
+.containers{
+    display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.signup{
+    margin-top: 80px;
+  width: 600px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: white;
+}
+
+#SignUpBtn{
+    display: grid;
+}
+#signupbt{
+    background-color:rgb(255, 110, 57);
+    height: 48px;
+    margin-top: 20px;
+    width: 250px;
+}
+#msg{
+    justify-content:space-around;
+}

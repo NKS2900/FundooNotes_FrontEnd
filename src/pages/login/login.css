@@ -23,7 +23,7 @@ html{
   background-color: white;
 }
 
-.fundooHeader{
+.fundooTitle{
   display: flex;
   flex-direction: row;
   justify-content: center;

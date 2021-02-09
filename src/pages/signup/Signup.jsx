@@ -9,7 +9,7 @@ class Signup extends Component{
         return(
             <div className="containers">
                 <Card className="signup">
-                <div className="fundooHeader">
+                <div className="fundooTitle">
                       <div className="f">F</div>
                       <div className="u">u</div>
                       <div className="n">n</div>

@@ -18,7 +18,7 @@ class Forgot extends Component{
                 <Card className="forgotcard">
                     <div id="headarrow">
                 <ArrowBackIcon id='backarrow' onClick={()=>this.props.history.push("/login")}/>
-                <div className="fundooHeader">
+                <div className="fundooTitle">
                       <div className="f">F</div>
                       <div className="u">u</div>
                       <div className="n">n</div>

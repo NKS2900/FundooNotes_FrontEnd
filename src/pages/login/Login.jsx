@@ -16,7 +16,7 @@ class Login extends Component{
         return(
             <div className="container">
                 <Card className="Login">
-                <div className="fundooHeader">
+                <div className="fundooTitle">
                       <div className="f">F</div>
                       <div className="u">u</div>
                       <div className="n">n</div>

@@ -17,7 +17,7 @@ class Reset extends Component{
                 <Card className="resetcard">
                 <div id="fundoohead">
                 <ArrowBackIcon id='backarrows' onClick={()=>this.props.history.push("/login")}/>
-                <div className="fundooHeader">
+                <div className="fundooTitle">
                       <div className="f">F</div>
                       <div className="u">u</div>
                       <div className="n">n</div>

@@ -1,0 +1,57 @@
+
+html{
+  background-color: whitesmoke;
+}
+
+.container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.Login{
+  margin-top: 80px;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: white;
+}
+
+/* .MuiTextField-root, .MuiButton-root{
+  width: 350px;
+} */
+
+#text-field{
+  display: grid;
+  white-space: pre;
+  
+}
+#textbox1{
+  width: 350px;
+  
+}
+#textbox2{
+  width: 350px;
+  
+}
+
+#loginbtn{
+  background-color:rgb(255, 110, 57);
+  height: 48px;
+  margin-top: 20px;
+  width: 400px;
+}
+
+#signup{
+  padding-left: 40px;
+}
+
+#msg {
+  margin-left: 60px;
+}

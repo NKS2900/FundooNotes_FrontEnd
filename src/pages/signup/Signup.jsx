@@ -10,8 +10,8 @@ class Signup extends Component{
             <div className="containers">
                 <Card className="signup">
                     <div id="name">
-                    <TextField id="fname" label="First Name" required variant="outlined" />
-                    <TextField id="lname" label="Last Name" required variant="outlined" />
+                    <div id="fname"><TextField  label="First Name" required variant="outlined" /></div>
+                    <div id="lname"><TextField  label="Last Name" required variant="outlined" /></div>
                         </div>
                     <div id="emaild">
                     <TextField id="email" label="Email" required variant="outlined" />  
@@ -37,7 +37,7 @@ class Signup extends Component{
                     </div>
                     <div id="SignUpBtn">
                     <Button id="signupbt" variant="contained">SignUp</Button>
-                    <label id="msg">have an account with us ?</label>
+                    <label id="signmsg">Have an account with us  <a href='/login'>Login</a></label>
                     </div>
                 </Card>
             </div>

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { TextField, Button,Card } from '@material-ui/core';
+import { TextField, InputAdornment,Button,Card,Snackbar } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import '../reset/reset.css';
 import { reset } from '../../services/UserService.js';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import Alert from '@material-ui/lab/Alert';
 
 class Reset extends Component{
   constructor(props){
@@ -10,18 +12,48 @@ class Reset extends Component{
     this.state = { 
       email: '', 
       password: '', 
+      cpassword:'',
+      hpassrror:'',
+      hcpasserror:'',
+      perror: false,
+      cerror:false,
       snackbarOpen: false,
       snackbarMessage: "",
     };
   }
 
-  SnackbarClose = (e) => {
-    this.setState({ snackbarOpen: false });
-  };
+  validation=()=>{
+    let Email=this.state.email;
+    let Password=this.state.password;
+    let CPassword=this.state.cpassword;
+    let invalidForm=true;
 
-  handleCloseSnackbar = () => {
-    this.setState({ snackbarOpen: false });
-  };
+    if(!Email.match(/^[a-zA-Z0-9.]{1,}@[a-z]{1,5}[.a-z]{1,5}[.]{1}[a-z]{1,4}$/))
+    {
+      this.setState({ eerror:true});
+      this.setState({ heerror:"Invalid Email."});
+      invalidForm=false;
+    }
+
+    if(!Password.match(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*.-])[a-zA-Z0-9].{8,}$/))
+      {
+        this.setState({ perror:true});
+        this.setState({ hpassrror:"Invalid Password Format."});
+        invalidForm=false;
+      }
+    if(!CPassword.match(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*.-])[a-zA-Z0-9].{8,}$/))
+      {
+        this.setState({ cerror:true});
+        this.setState({ hcpasserror:"Invalid Password Format."});
+        if(CPassword != Password){
+        this.setState({ cerror:true});
+        this.setState({ hcpasserror:"Password not matched!!!"});
+        invalidForm=false;
+        }
+      }
+      return invalidForm;
+  }
+
 
   handleSubmit=()=>{
     let loginData ={
@@ -29,17 +61,22 @@ class Reset extends Component{
       password: this.state.password
     }
 
+    if(this.validation())
+    {
     reset(loginData).then((response)=>{
       if(response.status === 200){
         alert("Password Changed Successfully...");
         
-        this.setState({
+        let responseMassege=response.data.message;
+          this.setState({
           snackbarOpen: true,
-          snackbarMessage: "Login Succesfully.",
-        }
+          snackbarMessage: responseMassege,
+          }
         );
-        this.props.history.push("/login");
-      }
+        setTimeout(() => {
+          this.props.history.push("/login");
+        }, 3000);
+        }
       else {
         this.setState({
           snackbarOpen: true,
@@ -51,20 +88,30 @@ class Reset extends Component{
     
     ).catch((err)=>{console.log(err);})
   }
+  else{
+    this.state.errmassege="Invalid Creadential";
+  }
+  }
 
   handleEmail=(event)=>{
+    this.setState({ eerror:false});
+    this.setState({ heerror:""});
     this.setState({ email:event.target.value});
     this.state.email = event.target.value;
     console.log("Email: ", this.state.email);
   }
 
   handlePassword=(event)=>{
+    this.setState({ perror:false});
+    this.setState({ hpassrror:""});
     this.setState({ password:event.target.value});
     this.state.password = event.target.value;
     console.log("Password:", this.state.password);
   }
-
+    
   handleCpass=(event)=>{
+    this.setState({ cerror:false});
+    this.setState({ hcpasserror:""});
     this.setState({ cpassword:event.target.value});
     this.state.cpassword = event.target.value;
     console.log("CPassword:", this.state.cpassword);
@@ -86,12 +133,40 @@ class Reset extends Component{
                     </div>
                     </div>
                     <div id="text-fieldss">
-                    <TextField id="textbox12" label="Email" onChange={this.handleEmail} required variant="outlined" /> <br/><br/>
-                    <TextField id="textbox12" label="New Password" onChange={this.handlePassword} required variant="outlined" /> <br/><br/>
-                    <TextField id="textbox12" label="Confirm New Password" onChange={this.handleCpass} required variant="outlined" />   <br/><br/>                                                              
+                    <TextField id="textbox12" label="Email" variant="outlined" onChange={this.handleEmail} 
+                     helperText={this.state.heerror} error={this.state.eerror} required  /> <br/><br/>
+                    <TextField id="textbox12" label="New Password" onChange={this.handlePassword} required variant="outlined" 
+                              InputProps={{
+                                endAdornment: (
+                                  <InputAdornment position="end">
+                                    <VisibilityIcon id="eyeicon"/>
+                                  </InputAdornment>),}}
+                                  helperText={this.state.hpassrror} error={this.state.perror}
+                    /> <br/><br/>
+                    <TextField id="textbox12" label="Confirm Password" onChange={this.handleCpass} required variant="outlined" 
+                     InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <VisibilityIcon id="eyeicon"/>
+                          </InputAdornment>
+                        ),
+                      }}
+                      helperText={this.state.hcpasserror} error={this.state.cerror}
+                    />  <br/><br/>                                                              
                     <div><Button id="forgotbtn" variant="contained" onClick={this.handleSubmit}>Submit</Button></div>
                     </div>
                 </Card>
+                <Snackbar
+                          anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                          }}
+                          open={this.state.snackbarOpen}
+                          autoHideDuration={5000}
+                          onClose={this.handleCloseSnackbar}
+                         
+                        ><Alert onClose={this.handleCloseSnackbar} severity="success">{this.state.snackbarMessage}</Alert>
+                        </Snackbar>
             </div>
         )
     }

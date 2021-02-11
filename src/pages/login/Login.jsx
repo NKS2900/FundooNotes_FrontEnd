@@ -29,14 +29,35 @@ class Login extends Component{
       this.setState({ snackbarOpen: false });
     };
 
+    validation=()=>{
+      let Email=this.state.email;
+      let Pass=this.state.password
+      let invalidForm=true;
 
+      if(!Email.match(/^[a-zA-Z0-9.]{1,}@[a-z]{1,5}[.a-z]{1,5}[.]{1}[a-z]{1,4}$/))
+      {
+        this.setState({ eerror:true});
+        this.setState({ emailerror:"Invalid Email."});
+        invalidForm=false;
+      }
+
+      if(!Pass.match(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*.-])[a-zA-Z0-9].{8,}$/))
+        {
+          this.setState({ merror:true});
+          this.setState({ mobilerror:"Invalid Password Format."});
+          invalidForm=false;
+        }
+        return invalidForm;
+    }
+// ----------------------------------------------
     handleLogin=()=>{
       
       let loginData ={
         email: this.state.email,
         password: this.state.password
       }
-
+      if(this.validation())
+      {
       login(loginData).then((response)=>{
         if(response.status === 200){
           alert("Login Successfull...");
@@ -47,6 +68,10 @@ class Login extends Component{
           );
         }
         else {
+          // this.setState({ snackbarOpen:true});
+          // this.setState({ snackbarMessage:"Enter correct credentials"});
+          //this.state.snackbarOpen=true;
+          //this.state.snackbarMessage= "Enter correct credentials";
           this.setState({
             snackbarOpen: true,
             snackbarMessage: "Enter correct credentials",
@@ -55,6 +80,11 @@ class Login extends Component{
         console.log("Login Response : ",response);
       }
       ).catch((err)=>{console.log(err);})
+    }
+    else{
+      this.state.errmassege="Invalid email";
+      //alert("Invalid email");
+    }
   }
   
     handleEmail=(event)=>{

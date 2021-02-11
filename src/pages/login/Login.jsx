@@ -20,17 +20,9 @@ class Login extends Component{
         merror: false,
         snackbarOpen: false,
         snackbarMessage: "",
+        hidden: true,
       };
     }
-
-     useStyles = makeStyles((theme) => ({
-      root: {
-        width: '100%',
-        '& > * + *': {
-          marginTop: theme.spacing(2),
-        },
-      },
-    }));
 
     handleCloseSnackbar = () => {
       this.setState({ snackbarOpen: false });
@@ -75,15 +67,19 @@ class Login extends Component{
             snackbarMessage: responseMassege,
           }
           );
+          // setTimeout(() => {
+          //   this.props.history.push("/dashboard");
+          // }, 2000);
       }
-      else {
+      if(response.status != 200){
+        console.log("This is invalid");
         let responseMassege=response.data.message;
         this.setState({
           snackbarOpen: true,
           snackbarMessage: responseMassege,
         }
         );
-        }
+      }
         console.log("Login Response : ",response);
       }
       ).catch((err)=>{console.log(err);})
@@ -94,12 +90,16 @@ class Login extends Component{
   }
   
     handleEmail=(event)=>{
+      this.setState({ eerror:false});
+      this.setState({ emailerror:""});
       this.setState({ email:event.target.value});
       this.state.email = event.target.value;
       console.log("Email: ", this.state.email);
     }
   
     handlePassword=(event)=>{
+      this.setState({ merror:false});
+      this.setState({ mobilerror:""});
       this.setState({ password:event.target.value});
       this.state.password = event.target.value;
       console.log("Password:", this.state.password);
@@ -107,6 +107,10 @@ class Login extends Component{
     handleSignup=()=>{
       this.props.history.push("/signup");
   };
+
+  toggleShow=()=> {
+    this.setState({ hidden: !this.state.hidden });
+  }
 
     render(){
         return(
@@ -123,14 +127,14 @@ class Login extends Component{
                     <div id="text-field">
                     <TextField id="textbox1" label="Email"  variant="outlined"
                      onChange={this.handleEmail}  helperText={this.state.emailerror}  
-                     error={this.state.eerror}/>                                                                    <br/><br/>
+                     error={this.state.eerror}/> <br/><br/>
                     
-                    <TextField id="textbox2"  label="Password" variant="outlined" 
+                    <TextField id="textbox2"  label="Password" variant="outlined" type={this.state.hidden ? 'text' : 'password'}
                      onChange={this.handlePassword} helperText={this.state.mobilerror} error={this.state.merror}  
                      InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
-                            <VisibilityIcon />
+                            <VisibilityIcon id="eyeicon" onClick={this.toggleShow}/>
                           </InputAdornment>
                         ),
                       }}
@@ -147,18 +151,17 @@ class Login extends Component{
                     <Button id="loginbtn" variant="contained" onClick={this.handleSignup}>SignUp</Button>
                     </div>
                 </Card>
-                      <Snackbar
-                          anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                          }}
-                          open={this.state.snackbarOpen}
-                          autoHideDuration={5000}
-                          onClose={this.handleCloseSnackbar}
-                         
-                        ><Alert onClose={this.handleCloseSnackbar} severity="success">{this.state.snackbarMessage}</Alert>
-                        </Snackbar>
-                        
+                  <Snackbar
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      open={this.state.snackbarOpen}
+                      autoHideDuration={5000}
+                      onClose={this.handleCloseSnackbar}
+                      
+                    ><Alert onClose={this.handleCloseSnackbar} severity="success">{this.state.snackbarMessage}</Alert>
+                    </Snackbar>
             </div>
         )
     }

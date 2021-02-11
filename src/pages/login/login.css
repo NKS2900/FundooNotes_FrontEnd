@@ -79,3 +79,7 @@ html{
 #msg {
   margin-left: 60px;
 }
+
+#eyeicon{
+  cursor: pointer;
+}

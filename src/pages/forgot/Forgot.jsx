@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { TextField, Button,Card } from '@material-ui/core';
+import { TextField, Button,Card ,Snackbar} from '@material-ui/core';
 import '../forgot/forgot.css';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { forgot } from '../../services/UserService.js';
+import Alert from '@material-ui/lab/Alert';
+
 
 class Forgot extends Component{
     constructor(props){
@@ -14,28 +16,42 @@ class Forgot extends Component{
         };
       }
   
-      SnackbarClose = (e) => {
-        this.setState({ snackbarOpen: false });
-      };
-    
       handleCloseSnackbar = () => {
         this.setState({ snackbarOpen: false });
       };
   
+      validation=()=>{
+        let Email=this.state.email;
+        let invalidForm=true;
+  
+        if(!Email.match(/^[a-zA-Z0-9.]{1,}@[a-z]{1,5}[.a-z]{1,5}[.]{1}[a-z]{1,4}$/))
+        {
+          this.setState({ eerror:true});
+          this.setState({ emailerror:"Invalid Email."});
+          invalidForm=false;
+        }
+          return invalidForm;
+      }
+  // ----------------------------------------------
+
       handleSend=()=>{
          let Email= this.state.email;
-        // let loginData ={
-        //   email: this.state.email, 
-        // }
+
+      if(this.validation())
+      {
         forgot(Email).then((response)=>{
           if(response.status === 200){
-            alert("Send Successfully...");
-            this.props.history.push("/login");
-            this.setState({
-              snackbarOpen: true,
-              snackbarMessage: "Login Succesfully.",
-            }
-            );
+           
+            //this.props.history.push("/login");
+            let responseMassege=response.data.message;
+          this.setState({
+          snackbarOpen: true,
+          snackbarMessage: responseMassege,
+          }
+        );
+        setTimeout(() => {
+          this.props.history.push("/login");
+        }, 3000);
           }
           else {
             this.setState({
@@ -43,13 +59,16 @@ class Forgot extends Component{
               snackbarMessage: "Enter correct credentials",
             });
           }
-          console.log("Login Response : ",response);
+          console.log("Forgot Response : ",response);
         }
         
         ).catch((err)=>{console.log(err);})
       }
+    }
     
       handleEmail=(event)=>{
+        this.setState({ eerror:false});
+        this.setState({ emailerror:""});
         this.setState({ email:event.target.value});
         this.state.email = event.target.value;
         console.log("Email: ", this.state.email);
@@ -71,10 +90,22 @@ class Forgot extends Component{
                     </div>
                     </div>
                     <div id="text-fields">
-                    <TextField id="textbox11" label="Email" onChange={this.handleEmail} required variant="outlined" />                                                                    <br/><br/>
+                    <TextField id="textbox11" label="Email" onChange={this.handleEmail} required variant="outlined"
+                    helperText={this.state.emailerror}  error={this.state.eerror} />                                                                    <br/><br/>
                     <Button id="forgotbtn" variant="contained" onClick={this.handleSend}>Submit</Button>
                     </div>
                 </Card>
+                <Snackbar
+                          anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                          }}
+                          open={this.state.snackbarOpen}
+                          autoHideDuration={5000}
+                          onClose={this.handleCloseSnackbar}
+                         
+                        ><Alert onClose={this.handleCloseSnackbar} severity="success">{this.state.snackbarMessage}</Alert>
+                        </Snackbar>
             </div>
         )
     }

@@ -23,6 +23,18 @@ export function signup(signUpData){
     }
 }
 
+export function forgot(Email){
+
+    try{
+        console.log(Email);
+        const response = axios.post('https://localhost:44379/api/User/forgot?emailAddress='+Email);
+        return response;
+    }
+    catch (error){
+        return error;
+    }
+}
+
 export function reset(data){
 
     try{

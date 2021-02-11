@@ -4,6 +4,8 @@ import Card from '@material-ui/core/Card';
 import { TextField, Button, InputAdornment, helperText, Snackbar ,error} from '@material-ui/core';
 import '../login/login.css';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import Alert from '@material-ui/lab/Alert';
+import { makeStyles } from '@material-ui/core/styles';
 import { login } from '../../services/UserService.js';
 
 class Login extends Component{
@@ -21,10 +23,15 @@ class Login extends Component{
       };
     }
 
-    SnackbarClose = () => {
-      this.setState({ snackbarOpen: false });
-    };
-  
+     useStyles = makeStyles((theme) => ({
+      root: {
+        width: '100%',
+        '& > * + *': {
+          marginTop: theme.spacing(2),
+        },
+      },
+    }));
+
     handleCloseSnackbar = () => {
       this.setState({ snackbarOpen: false });
     };
@@ -58,32 +65,31 @@ class Login extends Component{
       }
       if(this.validation())
       {
-      login(loginData).then((response)=>{
-        if(response.status === 200){
-          alert("Login Successfull...");
+        
+          login(loginData).then((response)=>{
+          if(response.status === 200){
+            let responseMassege=response.data.message;
+
           this.setState({
             snackbarOpen: true,
-            snackbarMessage: "Login",
+            snackbarMessage: responseMassege,
           }
           );
+      }
+      else {
+        let responseMassege=response.data.message;
+        this.setState({
+          snackbarOpen: true,
+          snackbarMessage: responseMassege,
         }
-        else {
-          // this.setState({ snackbarOpen:true});
-          // this.setState({ snackbarMessage:"Enter correct credentials"});
-          //this.state.snackbarOpen=true;
-          //this.state.snackbarMessage= "Enter correct credentials";
-          this.setState({
-            snackbarOpen: true,
-            snackbarMessage: "Enter correct credentials",
-          });
+        );
         }
         console.log("Login Response : ",response);
       }
       ).catch((err)=>{console.log(err);})
     }
     else{
-      this.state.errmassege="Invalid email";
-      //alert("Invalid email");
+      this.state.errmassege="Invalid Creadential";
     }
   }
   
@@ -143,13 +149,16 @@ class Login extends Component{
                 </Card>
                       <Snackbar
                           anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'center',
+                            vertical: 'top',
+                            horizontal: 'right',
                           }}
                           open={this.state.snackbarOpen}
                           autoHideDuration={5000}
-                          massege={this.state.snackbarMessage}
-                        ></Snackbar>
+                          onClose={this.handleCloseSnackbar}
+                         
+                        ><Alert onClose={this.handleCloseSnackbar} severity="success">{this.state.snackbarMessage}</Alert>
+                        </Snackbar>
+                        
             </div>
         )
     }

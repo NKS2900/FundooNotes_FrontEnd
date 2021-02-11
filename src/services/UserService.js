@@ -23,4 +23,16 @@ export function signup(signUpData){
     }
 }
 
+export function reset(data){
+
+    try{
+        console.log(data);
+        const response = axios.put('https://localhost:44379/api/User/resetPass',data);
+        return response;
+    }
+    catch (error){
+        return error;
+    }
+}
+
 

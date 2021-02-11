@@ -12,8 +12,15 @@ export function login(loginData){
     }
 }
 
+export function signup(signUpData){
 
-
-
+    try{
+        const response = axios.post('https://localhost:44379/api/User/register',signUpData);
+        return response;
+    }
+    catch (error){
+        return error;
+    }
+}
 
 

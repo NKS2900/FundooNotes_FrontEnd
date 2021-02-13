@@ -19,6 +19,8 @@ class Reset extends Component{
       cerror:false,
       snackbarOpen: false,
       snackbarMessage: "",
+      severity:'',
+      hidden: false,
     };
   }
 
@@ -86,7 +88,14 @@ class Reset extends Component{
       console.log("Login Response : ",response);
     }
     
-    ).catch((err)=>{console.log(err);})
+    ).catch((err)=>{
+      this.setState({
+        snackbarOpen: true,
+        severity:'error',
+        snackbarMessage: "User Not Found!!!",
+      }
+      );
+      console.log(err);})
   }
   else{
     this.state.errmassege="Invalid Creadential";
@@ -117,6 +126,9 @@ class Reset extends Component{
     console.log("CPassword:", this.state.cpassword);
   }
 
+  hideShow=()=> {
+    this.setState({ hidden: !this.state.hidden });
+  }
     render(){
         return(
             <div className="maindiv">
@@ -136,21 +148,25 @@ class Reset extends Component{
                     <TextField id="textbox12" label="Email" variant="outlined" onChange={this.handleEmail} 
                      helperText={this.state.heerror} error={this.state.eerror} required  /> <br/><br/>
                     <TextField id="textbox12" label="New Password" onChange={this.handlePassword} required variant="outlined" 
+                    type={this.state.hidden ? 'text' : 'password'}
                               InputProps={{
                                 endAdornment: (
                                   <InputAdornment position="end">
-                                    <VisibilityIcon id="eyeicon"/>
-                                  </InputAdornment>),}}
+                                    <VisibilityIcon id="eyeicon" onClick={this.hideShow}/>
+                                  </InputAdornment>
+                                ),
+                              }}
                                   helperText={this.state.hpassrror} error={this.state.perror}
                     /> <br/><br/>
                     <TextField id="textbox12" label="Confirm Password" onChange={this.handleCpass} required variant="outlined" 
+                    type={this.state.hidden ? 'text' : 'password'}
                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <VisibilityIcon id="eyeicon"/>
-                          </InputAdornment>
-                        ),
-                      }}
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <VisibilityIcon id="eyeicon" onClick={this.hideShow}/>
+                        </InputAdornment>
+                      ),
+                    }}
                       helperText={this.state.hcpasserror} error={this.state.cerror}
                     />  <br/><br/>                                                              
                     <div><Button id="forgotbtn" variant="contained" onClick={this.handleSubmit}>Submit</Button></div>
@@ -165,7 +181,7 @@ class Reset extends Component{
                           autoHideDuration={5000}
                           onClose={this.handleCloseSnackbar}
                          
-                        ><Alert onClose={this.handleCloseSnackbar} severity="success">{this.state.snackbarMessage}</Alert>
+                        ><Alert onClose={this.handleCloseSnackbar} severity={this.state.severity}>{this.state.snackbarMessage}</Alert>
                         </Snackbar>
             </div>
         )

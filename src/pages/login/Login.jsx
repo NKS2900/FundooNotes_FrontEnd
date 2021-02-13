@@ -20,7 +20,8 @@ class Login extends Component{
         merror: false,
         snackbarOpen: false,
         snackbarMessage: "",
-        hidden: true,
+        hidden: false,
+        severity:'',
       };
     }
 
@@ -61,28 +62,29 @@ class Login extends Component{
           login(loginData).then((response)=>{
           if(response.status === 200){
             let responseMassege=response.data.message;
-
-          this.setState({
+            this.setState({
             snackbarOpen: true,
+            severity:'success',
             snackbarMessage: responseMassege,
+            
           }
           );
-          // setTimeout(() => {
-          //   this.props.history.push("/dashboard");
-          // }, 2000);
-      }
-      if(response.status != 200){
-        console.log("This is invalid");
-        let responseMassege=response.data.message;
-        this.setState({
-          snackbarOpen: true,
-          snackbarMessage: responseMassege,
-        }
-        );
+          setTimeout(() => {
+            this.props.history.push("/home");
+          }, 2000);
       }
         console.log("Login Response : ",response);
       }
-      ).catch((err)=>{console.log(err);})
+      ).catch((err)=>{
+      
+        console.log("this is error: ",err)
+        this.setState({
+          snackbarOpen: true,
+          severity:'error',
+          snackbarMessage: "Invalid Email Or Password!!!",
+        }
+        );
+        console.log("this is exception: ",err);})
     }
     else{
       this.state.errmassege="Invalid Creadential";
@@ -108,7 +110,7 @@ class Login extends Component{
       this.props.history.push("/signup");
   };
 
-  toggleShow=()=> {
+  hideShow=()=> {
     this.setState({ hidden: !this.state.hidden });
   }
 
@@ -134,7 +136,7 @@ class Login extends Component{
                      InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
-                            <VisibilityIcon id="eyeicon" onClick={this.toggleShow}/>
+                            <VisibilityIcon id="eyeicon" onClick={this.hideShow}/>
                           </InputAdornment>
                         ),
                       }}
@@ -160,12 +162,12 @@ class Login extends Component{
                       autoHideDuration={5000}
                       onClose={this.handleCloseSnackbar}
                       
-                    ><Alert onClose={this.handleCloseSnackbar} severity="success">{this.state.snackbarMessage}</Alert>
+                    ><Alert onClose={this.handleCloseSnackbar} severity={this.state.severity}>{this.state.snackbarMessage}</Alert>
                     </Snackbar>
             </div>
         )
     }
 }
 
-export default withRouter(Login);
+export default Login;
 

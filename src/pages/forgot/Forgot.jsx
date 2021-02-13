@@ -13,6 +13,7 @@ class Forgot extends Component{
           email: '', 
           snackbarOpen: false,
           snackbarMessage: "",
+          severity:'',
         };
       }
   
@@ -46,6 +47,7 @@ class Forgot extends Component{
             let responseMassege=response.data.message;
           this.setState({
           snackbarOpen: true,
+          severity:'success',
           snackbarMessage: responseMassege,
           }
         );
@@ -62,7 +64,16 @@ class Forgot extends Component{
           console.log("Forgot Response : ",response);
         }
         
-        ).catch((err)=>{console.log(err);})
+        ).catch((err)=>{
+      
+          console.log("this is error: ",err)
+          this.setState({
+            snackbarOpen: true,
+            severity:'error',
+            snackbarMessage: "User Not Found!!!",
+          }
+          );
+          console.log("this is exception: ",err);})
       }
     }
     
@@ -101,10 +112,10 @@ class Forgot extends Component{
                             horizontal: 'right',
                           }}
                           open={this.state.snackbarOpen}
-                          autoHideDuration={5000}
+                          autoHideDuration={4000}
                           onClose={this.handleCloseSnackbar}
                          
-                        ><Alert onClose={this.handleCloseSnackbar} severity="success">{this.state.snackbarMessage}</Alert>
+                        ><Alert onClose={this.handleCloseSnackbar} severity={this.state.severity}>{this.state.snackbarMessage}</Alert>
                         </Snackbar>
             </div>
         )

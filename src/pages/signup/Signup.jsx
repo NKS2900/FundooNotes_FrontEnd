@@ -24,18 +24,11 @@ class Signup extends Component{
                 perror: false,
                 cerror:false,
                 snackbarOpen: false,
-                snackbarMessage: "",      
+                snackbarMessage: "",   
+                severity:'',   
+                hidden: false,
                 };
   }
-
-  useStyles = makeStyles((theme) => ({
-    root: {
-      width: '100%',
-      '& > * + *': {
-        marginTop: theme.spacing(2),
-      },
-    },
-  }));
 
   handleCloseSnackbar = () => {
     this.setState({ snackbarOpen: false });
@@ -80,7 +73,7 @@ class Signup extends Component{
       {
         this.setState({ cerror:true});
         this.setState({ hcpasserror:"Invalid Password Format."});
-        if(CPassword != Password){
+        if(CPassword !== Password){
         this.setState({ cerror:true});
         this.setState({ hcpasserror:"Password not matched!!!"});
         invalidForm=false;
@@ -102,7 +95,6 @@ class Signup extends Component{
     {
       signup(signupData).then((response)=>{
         if(response.status === 200){
-          //alert("Registration successfull...");
           let responseMassege=response.data.message;
           this.setState({
             snackbarOpen: true,
@@ -115,7 +107,14 @@ class Signup extends Component{
           }, 4000);
        }
         console.log("Signup Response : ",response);
-      }).catch((err)=>{console.log(err);})
+      }).catch((err)=>{
+        this.setState({
+          snackbarOpen: true,
+          severity:'error',
+          snackbarMessage: "User Registration Faield!!!",
+        }
+        );
+        console.log(err);})
     }
     else{
       this.state.errmassege="Invalid Creadential";
@@ -162,6 +161,10 @@ class Signup extends Component{
     console.log("CPassword:", this.state.cpassword);
   }
   
+  hideShow=()=> {
+    this.setState({ hidden: !this.state.hidden });
+  }
+
     render(){
         return(
             <div className="containers">
@@ -188,23 +191,38 @@ class Signup extends Component{
 
                     <div id="password1">
                     <TextField id="password" label="Password" onChange={this.handlePassword} required variant="outlined" 
+                    type={this.state.hidden ? 'text' : 'password'}
                      InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
                             <VisibilityIcon id="eyeicon"/>
                           </InputAdornment>),}}
                           helperText={this.state.hpassrror} error={this.state.perror}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <VisibilityIcon id="eyeicon" onClick={this.hideShow}/>
+                              </InputAdornment>
+                            ),
+                          }}
                           />
                     </div>
                     <div id="password2">
                     <TextField id="cpassword" label="Confirm Password" onChange={this.handleCpass} required variant="outlined" 
+                     type={this.state.hidden ? 'text' : 'password'}
                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <VisibilityIcon id="eyeicon"/>
-                          </InputAdornment>
-                        ),
-                      }}
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <VisibilityIcon id="eyeicon"/>
+                        </InputAdornment>),}}
+                        helperText={this.state.hpassrror} error={this.state.perror}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <VisibilityIcon id="eyeicon" onClick={this.hideShow}/>
+                            </InputAdornment>
+                          ),
+                        }}
                       helperText={this.state.hcpasserror} error={this.state.cerror}
                     />
                     </div>
@@ -222,12 +240,12 @@ class Signup extends Component{
                     autoHideDuration={5000}
                     onClose={this.handleCloseSnackbar}
                     
-                  ><Alert onClose={this.handleCloseSnackbar} severity="success">{this.state.snackbarMessage}</Alert>
+                  ><Alert onClose={this.handleCloseSnackbar} severity={this.state.severity}>{this.state.snackbarMessage}</Alert>
                   </Snackbar>
             </div>
         )
     }
 }
 
-export default withRouter(Signup);
+export default Signup;
 

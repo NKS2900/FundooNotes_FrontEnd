@@ -1,4 +1,6 @@
-/* css for dashbord */
+html{
+  background-color: white;
+}
 .main{
     margin-left: 20%;
     flex-direction: column;
@@ -8,16 +10,4 @@
     position: relative;
     justify-content: center;      
 }
-.row{
-    content: "";
-  display: table;
-  clear: both;
-  margin-bottom: 10%;
-}
-.coloumn{
-    
-        float: left;
-        width: 25%;
-        padding: 0 10px;
-        margin-bottom: 10%;
-}
+

@@ -3,7 +3,7 @@ html{
   background-color: whitesmoke;
 }
 
-.container{
+.containerss{
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -58,7 +58,6 @@ html{
 }
 #textbox2{
   width: 350px;
-  
 }
 
 #loginbtn{
@@ -82,4 +81,41 @@ html{
 
 #eyeicon{
   cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+  .containerss{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .Login{
+    margin-top: 80px;
+    width: 320px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: white;
+  }
+  #loginbtn{
+    background-color:rgb(255, 110, 57);
+    height: 48px;
+    margin-top: 20px;
+    width: 300px;
+  }
+  #forgotmsg{
+    margin-left: 195px;
+  }
+  #textbox1{
+    width: 300px;
+    
+  }
+  #textbox2{
+    width: 300px;
+  }
 }

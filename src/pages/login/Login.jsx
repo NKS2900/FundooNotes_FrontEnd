@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { withRouter } from "react-router-dom";
 import Card from '@material-ui/core/Card';
 import { TextField, Button, InputAdornment, helperText, Snackbar ,error} from '@material-ui/core';
 import '../login/login.css';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Alert from '@material-ui/lab/Alert';
-import { makeStyles } from '@material-ui/core/styles';
 import { login } from '../../services/UserService.js';
 
 class Login extends Component{
@@ -49,7 +47,7 @@ class Login extends Component{
         }
         return invalidForm;
     }
-// ----------------------------------------------
+// ----------------------------------------------//
     handleLogin=()=>{
       
       let loginData ={
@@ -58,7 +56,6 @@ class Login extends Component{
       }
       if(this.validation())
       {
-        
           login(loginData).then((response)=>{
           if(response.status === 200){
             let responseMassege=response.data.message;
@@ -66,9 +63,9 @@ class Login extends Component{
             snackbarOpen: true,
             severity:'success',
             snackbarMessage: responseMassege,
-            
-          }
-          );
+          });
+          localStorage.setItem("token", response.data.token);
+
           setTimeout(() => {
             this.props.history.push("/home");
           }, 2000);
@@ -116,7 +113,7 @@ class Login extends Component{
 
     render(){
         return(
-            <div className="container">
+            <div className="containerss">
                 <Card className="Login">
                 <div className="fundooTitle">
                       <div className="f">F</div>

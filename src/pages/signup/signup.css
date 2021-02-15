@@ -61,3 +61,56 @@ html{
     margin-left: 35px;
     margin-top: 15px;
 }
+@media screen and (max-width: 700px) {
+    
+#fname
+{
+    width: 155px;
+    margin-right: 10px;
+}
+#lname
+{
+    width: 155px;
+    margin-left: 10px;
+   
+}
+
+#email {
+    width: 300px;
+}
+
+#password ,#cpassword{
+    width: 270px;
+}
+
+.containers{
+    display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.signup{
+    margin-top: 35px;
+    width: 400px;
+    height: 400px;
+    justify-content: space-between;
+   
+}
+
+#SignUpBtn{
+    display: grid;
+}
+#signupbt{
+    background-color:rgb(255, 110, 57);
+    height: 48px;
+    margin-top: 20px;
+    width: 250px;
+}
+#signmsg{
+    justify-content:space-around;
+    margin-left: 35px;
+    margin-top: 15px;
+}
+}

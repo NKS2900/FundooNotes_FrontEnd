@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import AppBar from '../../components/AppBar/Appbar.jsx'
 import AddNote from '../../components/Note/Note.jsx'
+import DisplayNote from '../../components/Display/DisplayNote.jsx'
 import '../Home/home.css'
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
           <AddNote />
         </div>
       </div>
+      <div><DisplayNote /></div>
     </div>
   )
 }

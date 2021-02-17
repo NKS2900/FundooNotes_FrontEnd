@@ -12,10 +12,10 @@ class Login extends Component{
       this.state = { 
         email: '', 
         password: '', 
-        emailerror:'',
-        mobilerror:'',
-        eerror: false,
-        merror: false,
+        emailError:'',
+        passwordError:'',
+        emailErrorTextBox: false,
+        passwordErrorTextBox: false,
         snackbarOpen: false,
         snackbarMessage: "",
         hidden: false,
@@ -34,15 +34,15 @@ class Login extends Component{
 
       if(!Email.match(/^[a-zA-Z0-9.]{1,}@[a-z]{1,5}[.a-z]{1,5}[.]{1}[a-z]{1,4}$/))
       {
-        this.setState({ eerror:true});
-        this.setState({ emailerror:"Invalid Email."});
+        this.setState({ emailErrorTextBox:true});
+        this.setState({ emailError:"Invalid Email."});
         invalidForm=false;
       }
 
       if(!Pass.match(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*.-])[a-zA-Z0-9].{8,}$/))
         {
-          this.setState({ merror:true});
-          this.setState({ mobilerror:"Invalid Password Format."});
+          this.setState({ passwordErrorTextBox:true});
+          this.setState({ passwordError:"Invalid Password Format."});
           invalidForm=false;
         }
         return invalidForm;
@@ -65,7 +65,10 @@ class Login extends Component{
             snackbarMessage: responseMassege,
           });
           localStorage.setItem("token", response.data.token);
-
+          localStorage.setItem("email",response.data.data.email);
+          localStorage.setItem("userId",response.data.data.userId);
+          localStorage.setItem("firstName",response.data.data.firstName);
+          localStorage.setItem("lastName",response.data.data.lastName);
           setTimeout(() => {
             this.props.history.push("/home");
           }, 2000);
@@ -89,16 +92,16 @@ class Login extends Component{
   }
   
     handleEmail=(event)=>{
-      this.setState({ eerror:false});
-      this.setState({ emailerror:""});
+      this.setState({ emailErrorTextBox:false});
+      this.setState({ emailError:""});
       this.setState({ email:event.target.value});
       this.state.email = event.target.value;
       console.log("Email: ", this.state.email);
     }
   
     handlePassword=(event)=>{
-      this.setState({ merror:false});
-      this.setState({ mobilerror:""});
+      this.setState({ passwordErrorTextBox:false});
+      this.setState({ passwordError:""});
       this.setState({ password:event.target.value});
       this.state.password = event.target.value;
       console.log("Password:", this.state.password);
@@ -125,11 +128,11 @@ class Login extends Component{
                     </div>
                     <div id="text-field">
                     <TextField id="textbox1" label="Email"  variant="outlined"
-                     onChange={this.handleEmail}  helperText={this.state.emailerror}  
-                     error={this.state.eerror}/> <br/><br/>
+                     onChange={this.handleEmail}  helperText={this.state.emailError}  
+                     error={this.state.emailErrorTextBox}/> <br/><br/>
                     
                     <TextField id="textbox2"  label="Password" variant="outlined" type={this.state.hidden ? 'text' : 'password'}
-                     onChange={this.handlePassword} helperText={this.state.mobilerror} error={this.state.merror}  
+                     onChange={this.handlePassword} helperText={this.state.passwordError} error={this.state.passwordErrorTextBox}  
                      InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">

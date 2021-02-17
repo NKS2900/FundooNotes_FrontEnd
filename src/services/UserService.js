@@ -5,6 +5,7 @@ export function login(loginData){
 
     try{
         const response = axios.post('https://localhost:44379/api/User/login',loginData);
+        console.log(response);
         return response;
     }
     catch (error){

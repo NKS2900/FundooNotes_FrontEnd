@@ -7,7 +7,9 @@ import Signup from './pages/signup/Signup.jsx'
 import Forgot from './pages/forgot/Forgot.jsx'
 import Reset from './pages/reset/Reset.jsx'
 import Home from '../src/pages/Home/Home.jsx'
-
+import Note from '../src/components/Note/Note.jsx'
+import Archive from '../src/components/Archive/Archive.jsx'
+import DisplayIcons from '../src/components/DisplayIcon/DisplayIcon.jsx'
 function App() {
   return (
     <div className="App">
@@ -18,6 +20,9 @@ function App() {
           <Route path="/forgot" component={ Forgot } />
           <Route path="/reset" component={ Reset } />
           <Route path="/home" component={ Home } />
+          <Route path="/note" component={ Note } />
+          <Route path="/archive" component={ Archive } />
+          <Route path="/icon" component={ DisplayIcons } />
       </Switch>
       </Router>
     </div>

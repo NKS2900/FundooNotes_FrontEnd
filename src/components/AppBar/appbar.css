@@ -1,4 +1,6 @@
-
+body{
+    background-color: white;
+}
 .topBar{
     display: flex;
     justify-content: space-between;
@@ -29,6 +31,7 @@
     align-items: center;
     background-color: rgb(238, 238, 238);
     border-radius: 8px;
+    
 }
 .searchIcon{
    margin-left: 3%;
@@ -37,6 +40,7 @@
     margin-left:2% ;
     width: 80%;
     height: 1;
+  
 }
 .appsContainer{
     display: flex;
@@ -46,7 +50,7 @@
     display: flex;
     flex-direction: column;
     width: 250px;
-    height: 280px;
+    height: 220px;
     position: absolute;
     right: 8px;
     top: 62px;
@@ -56,6 +60,7 @@
     box-shadow: 0 2px 10px rgba(0,0,0,.2);
     background-color: #fff; 
     align-items: center;
+    justify-self: center;
 }
 
 .false {
@@ -66,19 +71,25 @@
     position: relative;
     height: 86px;
     width: 86px;
-    display: flex;
+    display: grid;
     justify-content: center;
     align-items: center;
-    margin-right: 1%;
+    
 }
-.cardActions{
+.cardActionss{
     display: flex;
     justify-content: center;
     font-weight: bold;
+    align-content: flex-end;
+    margin-top: 35px;
 }
 .image{
     margin-bottom: 1%;
 }
 a{
     direction: none;
+}
+.avatarIcon{
+    margin-left: 65px;
+    display: flex;
 }

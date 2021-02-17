@@ -23,6 +23,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import "./appbar.css";
 import icon from "../../assets/keeps.png";
 import bike from "../../assets/bike.jpg";
+import {useHistory} from "react-router-dom"
 
 const drawerWidth = 240;
 
@@ -81,13 +82,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 var checkOpen = "close";
 
-
 export default function AppBarTool(props) {
   const [hide, setHide] = useState(false)
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-
+  const history = useHistory();
+  
   const drawerOpenClose = () => {
     if (checkOpen == "open") {
       setOpen(false);
@@ -103,13 +104,22 @@ export default function AppBarTool(props) {
   }
 
   const handleLogout=()=>{
-  props.history.push("/login");
+    localStorage.clear();
+    history.push("/login");
   }
   
+  const handleArchive = () =>{
+    history.push("/archive");
+  }
+
+  const handleHome = () =>{
+    history.push("/home");
+  }
+
   return (
     <div className="main">
       <CssBaseline />
-      <AppBar position="fixed" color="default"
+      <AppBar position="fixed" color="inherit"
       className={clsx(classes.appBar, {
         [classes.appBarShift]: open,
       })}  
@@ -157,15 +167,17 @@ export default function AppBarTool(props) {
               </div>
             </div>
             <div className={hide ? "true profile" : "false profile"} >
-              <div className="person">
+              <div className="person" >
                 <div className="avatarContainer">
                    <Avatar className="avatarIcon" alt='profile' src={bike} /> 
                 </div>
-                <div className="cardActions">
-                <Button variant="contained" style={{
+                <div><b>{localStorage.getItem('firstName')} </b><b>{localStorage.getItem('lastName')}</b></div>
+                <div><b>E-mail: </b>{localStorage.getItem('email')}</div>
+                <div className="cardActionss">
+                <Button className="signOut" variant="contained" id="signout" style={{
                   fontWeight: 700,
                   backgroundColor: "orange",
-                }} onClick={() => {handleLogout()}} >SIGN OUT</Button>
+                }} onClick={handleLogout} >SIGN OUT</Button>
                 
               </div>
               </div>
@@ -185,15 +197,15 @@ export default function AppBarTool(props) {
             [classes.drawerClose]: !open,
           }),
         }}
+        
       >
         <div className={classes.toolbar}>
-
         </div>
         <Divider />
         <List>
-            <ListItem button key="Note">
+            <ListItem button key="Note" onClick={handleHome}>
               <ListItemIcon> <EmojiObjectsIcon/></ListItemIcon>
-              <ListItemText primary="Notes" />
+              <ListItemText primary="Notes" onClick={handleHome}/>
             </ListItem>
         </List>
         <List>
@@ -209,13 +221,13 @@ export default function AppBarTool(props) {
             </ListItem>
         </List>
         <List>
-            <ListItem button key="Archive">
+            <ListItem button key="Archive" onClick={handleArchive}>
               <ListItemIcon> <ArchiveIcon /> </ListItemIcon>
-              <ListItemText primary="Archive" />
+              <ListItemText primary="Archive" onClick={handleArchive}/>
             </ListItem>
         </List>
         <List>
-            <ListItem button key="Trash">
+            <ListItem button key="Trash" >
               <ListItemIcon> <DeleteIcon /> </ListItemIcon>
               <ListItemText primary="Trash" />
             </ListItem>

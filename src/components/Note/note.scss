@@ -5,6 +5,7 @@
     align-items: center;
     position: relative;
     justify-content: center;
+    font-family: 'Roboto',arial,sans-serif;
 }
 
 .contain {
@@ -19,6 +20,14 @@
     margin-top: 12%;
     margin-left: 92px;
   
+}
+
+#MuiInputBase-root{
+    letter-spacing: .01428571em;
+    font-family: Roboto,Arial,sans-serif;
+    font-size: .950rem;
+    font-weight: 600;
+    line-height: 1.25rem;
 }
 
 .containerr {
@@ -63,6 +72,45 @@
     margin-inline-start: 100px;
 
 }
+/* ----------------------------------- */
+
+.tools {
+    flex-grow: 1;
+}
+
+.color-change {
+    position: absolute;
+    display: flex;
+    border-radius: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 5px 7px 3px;
+    z-index: 4011;
+    box-sizing: border-box;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    background-color: #fff; 
+    margin-right: 80px;
+}
+
+
+
+.button-color {
+    margin: 3px;
+    width: 25px;
+    height: 25px;
+    border-radius: 15px;
+    cursor: pointer;
+    border: none;
+}
+
+.MuiIconButton-root {
+    padding: 9px !important;
+}
+
+/* ----------------------------------- */
+
+
+
 
 /*media queries for create not app*/
 @media screen and (max-width: 700px) {

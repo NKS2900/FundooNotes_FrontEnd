@@ -9,15 +9,31 @@ import MoreVertOutlinedIcon from '@material-ui/icons/MoreVertOutlined';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Tooltip from '@material-ui/core/Tooltip';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import { makeStyles } from '@material-ui/core/styles';
+import service from '../../services/NoteService.js'
 
-import {Chip} from "@material-ui/core";
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
+const useStyles = makeStyles((theme) => ({
+    root: {
+      width: '100%',
+      maxWidth: 360,
+      backgroundColor: theme.palette.background.paper,
+        
+    },
+  }));
 
+const DisplayIcons = ({ item, props }) => {
 
-const DisplayIcons = ({ userId , props }) => {
     const [color, setColor] = useState(false)
     const [showColorList, setShowColorList] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [reminder, setReminder]= useState(false);
+    const [showReminder, setShowReminder]=useState(false);
+    const classes = useStyles();
     
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -26,18 +42,6 @@ const DisplayIcons = ({ userId , props }) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    const handleTrashNotes = () => {
-        let data = {
-            noteIdList: [item.id]  , isDeleted: true
-        }
-        Service.trashNotes(data).then(res => {
-            console.log(res)
-        }).catch(err => {
-            console.log(err);
-        })
-       
-    }
 
     const DATA = [
         { title: "Default", id: "#fff" },
@@ -58,7 +62,6 @@ const DisplayIcons = ({ userId , props }) => {
         props.setBgColor(value);
     };
 
-
     const handleColor = () => {
         setColor(true)
     }
@@ -67,18 +70,72 @@ const DisplayIcons = ({ userId , props }) => {
         setColor(false)
     }
 
+    const handleReminder = () => {
+        setReminder(true)
+    }
+
+    const handleReminderOut = () => {
+        setReminder(false)
+    }
+
+    const handleTrashNotes = () => {
+        console.log("Note_ID: ",item.noteId);
+
+        service.DeletNote(item.noteId).then(res => {
+            console.log(res)
+            window.location.reload();
+        }).catch(err => {
+            console.log(err);
+        })
+  
+    }
+
     return (
         <div className="tools">
-            <IconButton aria-label="Remind me" edge="start">
+            <Tooltip title="Reminde me">
+            <IconButton aria-label="Remind me" edge="start" onClick={() => { handleReminder(); setShowReminder(!showReminder) }}>
                 <AddAlertOutlinedIcon fontSize="small" />
             </IconButton>
+            </Tooltip>
+            {/* ----------Reminder----------- */}
+
+            {showReminder ? (
+                <div className={reminder ? "visible reminder-change" : "NV reminder-change"}
+                     style={{ width: 250, height: 215 }}>
+                    
+                    <div className={classes.root}>
+                        <List component="nav" >
+                        <ListItem >
+                            <ListItemText  primary="Reminder:" />
+                        </ListItem>
+                        <Divider />
+                        <ListItem button>
+                            <ListItemText primary="Tommorro" />
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemText primary="Next week" />
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemText primary="Pick date & time" />
+                        </ListItem>
+                        </List>
+                    </div>
+
+                </div>
+            ) : null}
+
+            {/* ------------------------- */}
+            <Tooltip title="Collaborator">
             <IconButton aria-label="Collaborator">
                 <PersonAddOutlinedIcon fontSize="small" />
             </IconButton>
-            <IconButton aria-label="Change color"
+            </Tooltip>
+            <Tooltip title="Change color">
+            <IconButton aria-label="Change color" 
                  onClick={() => { handleColor(); setShowColorList(!showColorList) }}>
-                <ColorLensOutlinedIcon fontSize="small" />
+                <ColorLensOutlinedIcon fontSize="small" onMouseOver={handleColor} />
             </IconButton>
+            </Tooltip>
             {showColorList ? (
                 <div className={color ? "visible color-change" : "NV color-change"}
                     onMouseOver={handleColor} onMouseOut={handleColorOut} style={{ width: 150, height: 125 }}>
@@ -90,15 +147,21 @@ const DisplayIcons = ({ userId , props }) => {
                     ))}
                 </div>
             ) : null}
+            <Tooltip title="Add image">
             <IconButton aria-label="Add image">
                 <ImageOutlinedIcon fontSize="small" />
             </IconButton>
+            </Tooltip>
+            <Tooltip title="Archive note">
             <IconButton aria-label="Archive note">
                 <ArchiveOutlinedIcon fontSize="small" />
             </IconButton>
+            </Tooltip>
+            <Tooltip title="More">
             <IconButton aria-label="More" onClick={handleClick}>
                 <MoreVertOutlinedIcon fontSize="small" />
             </IconButton>
+            </Tooltip>
             <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}
@@ -109,6 +172,7 @@ const DisplayIcons = ({ userId , props }) => {
                     handleClose();
                     handleTrashNotes()
                 }}>Delete Note</MenuItem>
+                <MenuItem>Add Label</MenuItem>
             </Menu>
         </div>
     )

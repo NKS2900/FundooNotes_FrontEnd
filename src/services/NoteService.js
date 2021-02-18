@@ -13,10 +13,10 @@ let addNote = (data ) => {
         return response;
  }
 
- let getAllNote = () => {
+ let getAllNote = (noteId) => {
 
     //console.log("Token : ",localStorage.getItem('token'));
-    const response = axios.get('https://localhost:44379/api/Note/getAllNotes',
+    const response = axios.get('https://localhost:44379/api/Note/getAllNotes'+noteId,
       {
          headers: { Authorization: "Bearer "+localStorage.getItem('token'), },
       }
@@ -25,10 +25,10 @@ let addNote = (data ) => {
       return response;
 }
 
-let getArchiveNote = () => {
+let getArchiveNote = (userId) => {
 
   console.log("Token : ",localStorage.getItem('token'));
-  const response = axios.get('https://localhost:44379/api/Note/archive',
+  const response = axios.get('https://localhost:44379/api/Note/archive?userId='+userId,
     {
        headers: { Authorization: "Bearer "+localStorage.getItem('token'), },
     }
@@ -37,10 +37,11 @@ let getArchiveNote = () => {
     return response;
 }
 
-let TrashNote = (noteId) => {
+let DeletNote = (noteId) => {
 
   console.log("Token : ",localStorage.getItem('token'));
-  const response = axios.get('https://localhost:44379/api/Note?noteId='+noteId,
+  console.log("SErvice value of Note : ",noteId);
+  const response = axios.delete('https://localhost:44379/api/Note/delete?noteId='+noteId,
     {
        headers: { Authorization: "Bearer "+localStorage.getItem('token'), },
     }
@@ -49,4 +50,4 @@ let TrashNote = (noteId) => {
     return response;
 }
 
- export default{addNote, getAllNote, getArchiveNote,TrashNote}
+ export default{addNote, getAllNote, getArchiveNote,DeletNote}

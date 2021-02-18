@@ -50,4 +50,17 @@ let DeletNote = (noteId) => {
     return response;
 }
 
- export default{addNote, getAllNote, getArchiveNote,DeletNote}
+
+let getTrahsNote = (userId) => {
+
+  console.log("Token : ",localStorage.getItem('token'));
+  const response = axios.get('https://localhost:44379/api/Note/trash?userId='+userId,
+    {
+       headers: { Authorization: "Bearer "+localStorage.getItem('token'), },
+    }
+  );
+  
+    return response;
+}
+
+ export default{addNote, getAllNote, getArchiveNote,DeletNote,getTrahsNote }

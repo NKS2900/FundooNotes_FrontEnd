@@ -37,6 +37,19 @@ let getArchiveNote = (userId) => {
     return response;
 }
 
+let UnArchive = (noteId) => {
+
+  //console.log("Token : ",localStorage.getItem('token'));
+  console.log("NoteService : ",noteId)
+  const response = axios.put('https://localhost:44379/api/Note/archive?noteId='+noteId,
+    {
+       headers: { Authorization: "Bearer "+localStorage.getItem('token'), },
+    }
+  );
+  
+    return response;
+}
+
 let DeletNote = (noteId) => {
 
   console.log("Token : ",localStorage.getItem('token'));
@@ -50,7 +63,6 @@ let DeletNote = (noteId) => {
     return response;
 }
 
-
 let getTrahsNote = (userId) => {
 
   console.log("Token : ",localStorage.getItem('token'));
@@ -63,4 +75,16 @@ let getTrahsNote = (userId) => {
     return response;
 }
 
- export default{addNote, getAllNote, getArchiveNote,DeletNote,getTrahsNote }
+let getReminder = (userId) => {
+
+  console.log("Token : ",localStorage.getItem('token'));
+  const response = axios.get('https://localhost:44379/api/Note/reminder?userId='+userId,
+    {
+       headers: { Authorization: "Bearer "+localStorage.getItem('token'), },
+    }
+  );
+  
+    return response;
+}
+
+ export default{addNote, getAllNote, getArchiveNote,DeletNote,UnArchive,getTrahsNote,getReminder}

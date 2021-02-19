@@ -4,14 +4,15 @@ import DisplayIcons from '../DisplayIcon/DisplayIcon.jsx'
 import '../Archive/archive.scss'
 import AppBar from '../AppBar/Appbar.jsx'
 
-const ArchiveNote= (props) => {
+const ArchiveNote= () => {
     const [noteList, setNoteList] = useState([]);
     
     // const response=service.getAllNote();
     //  setNoteList(response.data);
 
-    const getNote = () => {
-        service.getArchiveNote()
+    const getArchiveNotes = () => {
+      let userId=localStorage.getItem('userId');
+        service.getArchiveNote(userId)
         .then((response) => {
           if(response.status === 200){
             setNoteList(response.data.data);
@@ -23,7 +24,7 @@ const ArchiveNote= (props) => {
     }
 
         useEffect(() => {
-            getNote()
+          getArchiveNotes()
         }, []);
         
     return(
@@ -32,12 +33,13 @@ const ArchiveNote= (props) => {
           <div id="display-note-container">
           <div className="cardss" >
                   {noteList.map((item) => (
-                    <div className="addNote" style={{ backgroundColor: item.colour }}>
+                    <div className="addNote" style={{ backgroundColor: item.colour }}key={item.noteId}>
                        <div className="notes1" >
                           <div className="note pds"><b>{item.title}</b></div>
                           <div className='note pds'>{item.description}</div>
-                          <div className="cardActionIcon"><DisplayIcons  /></div>
-                    </div> 
+                          <div className="cardActionIcon">
+                            <DisplayIcons item={item} GetNote={getArchiveNotes}/></div>
+                      </div> 
                      </div>
 		      	    ))}
             

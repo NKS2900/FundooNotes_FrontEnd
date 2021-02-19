@@ -16,6 +16,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import service from '../../services/NoteService.js'
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,13 +28,14 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const DisplayIcons = ({ item, props }) => {
+const DisplayIcons = ({ item,GetNote, props }) => {
 
     const [color, setColor] = useState(false)
     const [showColorList, setShowColorList] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [reminder, setReminder]= useState(false);
     const [showReminder, setShowReminder]=useState(false);
+    const [showDateTime, setShowDateTime] = useState(false);
     const classes = useStyles();
     
     const handleClick = (event) => {
@@ -87,7 +90,19 @@ const DisplayIcons = ({ item, props }) => {
         }).catch(err => {
             console.log(err);
         })
-  
+        GetNote();
+    }
+
+    const handleUnarchive = () => {
+        console.log("Note_ID: ",item.noteId);
+
+        service.UnArchive(item.noteId).then(res => {
+            console.log(res)
+            window.location.reload();
+        }).catch(err => {
+            console.log(err);
+        })
+         //GetNote();
     }
 
     return (
@@ -100,8 +115,8 @@ const DisplayIcons = ({ item, props }) => {
             {/* ----------Reminder----------- */}
 
             {showReminder ? (
-                <div className={reminder ? "visible reminder-change" : "NV reminder-change"}
-                     style={{ width: 250, height: 215 }}>
+                <div className={reminder ? "visible reminderrr-change" : "NV reminderrr-change"}
+                     style={{ width: 250, height: 220}}>
                     
                     <div className={classes.root}>
                         <List component="nav" >
@@ -110,20 +125,37 @@ const DisplayIcons = ({ item, props }) => {
                         </ListItem>
                         <Divider />
                         <ListItem button>
+                            <ListItemText primary="Later Today" />
+                            <div>8:00PM</div>
+                        </ListItem>
+                        <ListItem button>
                             <ListItemText primary="Tommorro" />
+                            <div>8:00AM</div>
                         </ListItem>
-                        <ListItem button>
-                            <ListItemText primary="Next week" />
-                        </ListItem>
-                        <ListItem button>
+                        <ListItem button onClick={() => setShowDateTime(!showDateTime)}>
+                        <AccessTimeIcon style={{ marginRight: "4%" }} />
                             <ListItemText primary="Pick date & time" />
                         </ListItem>
                         </List>
                     </div>
-
                 </div>
             ) : null}
-
+      
+            {showDateTime ? (
+              <div className={reminder ? "visible reminderrr-change" : "NV reminderrr-change"}
+              style={{ width: 250, height: 220 }}>  
+              <div className={classes.root}>
+              <List component="nav" >
+                <ListItem >
+                    <ArrowBackIcon style={{ marginRight: "7%", cursor: "pointer" }} onClick={() => setShowDateTime(!showDateTime)} />
+                    <ListItemText  primary="Pick date & time:" />
+                </ListItem>
+                <Divider />
+                </List>
+              </div>
+              <Divider />
+              </div>
+            ) : null}
             {/* ------------------------- */}
             <Tooltip title="Collaborator">
             <IconButton aria-label="Collaborator">
@@ -153,7 +185,7 @@ const DisplayIcons = ({ item, props }) => {
             </IconButton>
             </Tooltip>
             <Tooltip title="Archive note">
-            <IconButton aria-label="Archive note">
+            <IconButton aria-label="Archive note" onClick={handleUnarchive}>
                 <ArchiveOutlinedIcon fontSize="small" />
             </IconButton>
             </Tooltip>

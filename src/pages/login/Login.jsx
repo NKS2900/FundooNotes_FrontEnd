@@ -96,7 +96,6 @@ class Login extends Component{
       this.setState({ emailError:""});
       this.setState({ email:event.target.value});
       this.state.email = event.target.value;
-      console.log("Email: ", this.state.email);
     }
   
     handlePassword=(event)=>{
@@ -104,7 +103,6 @@ class Login extends Component{
       this.setState({ passwordError:""});
       this.setState({ password:event.target.value});
       this.state.password = event.target.value;
-      console.log("Password:", this.state.password);
     }
     handleSignup=()=>{
       this.props.history.push("/signup");

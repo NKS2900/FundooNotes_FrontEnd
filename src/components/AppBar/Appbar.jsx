@@ -18,6 +18,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AddAlertIcon from '@material-ui/icons/AddAlert';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import EditIcon from '@material-ui/icons/Edit';
+import LabelIcon from '@material-ui/icons/Label';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import DeleteIcon from '@material-ui/icons/Delete';
 import "./appbar.css";
@@ -112,8 +113,16 @@ export default function AppBarTool(props) {
     history.push("/archive");
   }
 
+  const handleTrash = () =>{
+    history.push("/trash");
+  }
+
   const handleHome = () =>{
     history.push("/home");
+  }
+
+  const handleClickReminder = () =>{
+    history.push("/reminder");
   }
 
   return (
@@ -209,9 +218,9 @@ export default function AppBarTool(props) {
             </ListItem>
         </List>
         <List>
-            <ListItem button key="Reminder">
+            <ListItem button key="Reminder" onClick={handleClickReminder}>
               <ListItemIcon> <AddAlertIcon /> </ListItemIcon>
-              <ListItemText primary="Reminder" />
+              <ListItemText primary="Reminder" onClick={handleClickReminder} />
             </ListItem>
         </List>
         <List>
@@ -221,15 +230,21 @@ export default function AppBarTool(props) {
             </ListItem>
         </List>
         <List>
+            <ListItem button key="Label">
+              <ListItemIcon> <LabelIcon /> </ListItemIcon>
+              <ListItemText primary="Label" />
+            </ListItem>
+        </List>
+        <List>
             <ListItem button key="Archive" onClick={handleArchive}>
               <ListItemIcon> <ArchiveIcon /> </ListItemIcon>
               <ListItemText primary="Archive" onClick={handleArchive}/>
             </ListItem>
         </List>
         <List>
-            <ListItem button key="Trash" >
-              <ListItemIcon> <DeleteIcon /> </ListItemIcon>
-              <ListItemText primary="Trash" />
+            <ListItem button key="Trash" onClick={handleTrash}>
+              <ListItemIcon > <DeleteIcon /> </ListItemIcon>
+              <ListItemText primary="Trash" onClick={handleTrash}/>
             </ListItem>
         </List>
       </Drawer>

@@ -12,7 +12,33 @@ module.exports = {
               test: /\.css$/i,
               use: ["style-loader", "css-loader"],
             },
+            {
+              test: /\.s[ac]ss$/i,
+              use: [
+                // Creates `style` nodes from JS strings
+                "style-loader",
+                // Translates CSS into CommonJS
+                "css-loader",
+                // Compiles Sass to CSS
+                "sass-loader",
+              ],
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/i,
+                use: [
+                  {
+                    loader: 'file-loader',
+                  },
+                ],
+              },
         ],
+
+        // plugins: [
+        //     new webpack.DefinePlugin({
+        //         "process.env.REACT_APP_BASE_URL": JSON.stringify(process.env.REACT_APP_BASE_URL)
+        //     }),
+        //     new webpack.EnvironmentPlugin(['REACT_APP_BASE_URL']) // <--This is shorthand, does the same thing as the DefinePlugin
+        // ],
     },
     resolve:{
         extensions: ['*', '.js', '.jsx']

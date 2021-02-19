@@ -13,7 +13,7 @@ export default function Home() {
           <AddNote />
         </div>
       </div>
-      <div><DisplayNote /></div>
+      <div className="displayNotes"><DisplayNote /></div>
     </div>
   )
 }

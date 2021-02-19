@@ -45,7 +45,7 @@
 .container1 {
     display: flex;
     flex-direction: column;
-    height: 136px;
+    height: auto;
 }
 
 
@@ -63,14 +63,23 @@
 .toolbar {
     display: flex;
     justify-content: space-around;
-    margin-top: 30px;
-    padding-right: 20px;
+    margin-top: 25px;
+    padding-right: 10px;
 }
 
 .close-button {
     display: flex;
     margin-inline-start: 100px;
 
+}
+
+.pinunpin{
+    cursor: pointer;
+}
+
+#chip{  
+    justify-content: flex-start;
+    margin-top: 60px;
 }
 /* ----------------------------------- */
 
@@ -105,11 +114,39 @@
 
 .MuiIconButton-root {
     padding: 9px !important;
+    word-wrap: break-word;
+    white-space: initial;
 }
 
 /* ----------------------------------- */
+.reminderr-change{
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 5px 7px 3px;
+    z-index: 4011;
+    box-sizing: border-box;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    background-color: #fff; 
+    font-family: Roboto,Arial,sans-serif;
+    margin-right: 300px;
+    margin-top: 40px;
+    border-radius: 8px;
+    border: 0.1px solid rgba($color: gray, $alpha: 0.8);
+    
+}
 
+#dateTimeText{
+    justify-content: center;
+}
 
+#textDateTime{
+    width: 200px;
+}
+#saveButton{
+    justify-content: flex-end;
+}
 
 
 /*media queries for create not app*/
@@ -131,8 +168,11 @@
 
     .toolbar {
         display: flex;
-        margin-top: 30px;
+        margin-top: auto;
         padding-right: 20px;
 
     }
 }
+//-----------------------------------
+
+

@@ -18,26 +18,31 @@ import { makeStyles } from '@material-ui/core/styles';
 import service from '../../services/NoteService.js'
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-
+import {TextField,Button} from "@material-ui/core"
+import { Avatar, Chip } from '@material-ui/core';
+import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
 const useStyles = makeStyles((theme) => ({
     root: {
       width: '100%',
       maxWidth: 360,
-      backgroundColor: theme.palette.background.paper,
-        
+      backgroundColor: theme.palette.background.paper,  
     },
   }));
 
 const DisplayIcons = ({ item,GetNote, props }) => {
 
-    const [color, setColor] = useState(false)
+    const [colors, setColors] = useState(false)
     const [showColorList, setShowColorList] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [reminder, setReminder]= useState(false);
+    const [reminders, setReminder]= useState(false);
     const [showReminder, setShowReminder]=useState(false);
     const [showDateTime, setShowDateTime] = useState(false);
+    const [selectedDate, setSelectedDate] = React.useState('');
+    const [selectedTime, setSelectedTime] = React.useState('');
+    //const [color, setBgcolor] = useState('');
     const classes = useStyles();
-    
+    var setBgColor;
+    var reminder=selectedDate+" "+selectedTime;
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -61,16 +66,16 @@ const DisplayIcons = ({ item,GetNote, props }) => {
         { title: "Gray", id: "#e8eaed" },
     ];
 
-    const selectColor = (value) => {
-        props.setBgColor(value);
-    };
+    // const selectColor = (value) => {
+    //     props.setBgColor(value);
+    // };
 
     const handleColor = () => {
-        setColor(true)
+        setColors(true)
     }
 
     const handleColorOut = () => {
-        setColor(false)
+        setColors(false)
     }
 
     const handleReminder = () => {
@@ -86,11 +91,12 @@ const DisplayIcons = ({ item,GetNote, props }) => {
 
         service.DeletNote(item.noteId).then(res => {
             console.log(res)
-            window.location.reload();
+            GetNote();
+            //window.location.reload();
         }).catch(err => {
             console.log(err);
         })
-        GetNote();
+       
     }
 
     const handleUnarchive = () => {
@@ -98,15 +104,42 @@ const DisplayIcons = ({ item,GetNote, props }) => {
 
         service.UnArchive(item.noteId).then(res => {
             console.log(res)
-            window.location.reload();
+            GetNote();
         }).catch(err => {
             console.log(err);
-        })
-         //GetNote();
+        })   
+    }
+
+    const ChangeColors = () => {
+        console.log("Note_ID: ",item.noteId," ",setBgColor);
+        const data={
+            noteId:item.noteId,
+            color:setBgColor
+        }
+        service.ChangeColor(data).then(res => {
+            console.log(res)
+            GetNote();
+        }).catch(err => {
+            console.log(err);
+        })   
+    }
+
+    const UpdateReminders = () => {
+        console.log("Note_ID: ",item.noteId," ",reminder);
+        const data={
+            noteId:item.noteId,
+            color:reminder
+        }
+        service.UpdateReminder(data).then(res => {
+            console.log(res)
+            GetNote();
+        }).catch(err => {
+            console.log(err);
+        })   
     }
 
     return (
-        <div className="tools">
+        <div className="tools">          
             <Tooltip title="Reminde me">
             <IconButton aria-label="Remind me" edge="start" onClick={() => { handleReminder(); setShowReminder(!showReminder) }}>
                 <AddAlertOutlinedIcon fontSize="small" />
@@ -115,7 +148,7 @@ const DisplayIcons = ({ item,GetNote, props }) => {
             {/* ----------Reminder----------- */}
 
             {showReminder ? (
-                <div className={reminder ? "visible reminderrr-change" : "NV reminderrr-change"}
+                <div className={reminders ? "visible reminderrr-change" : "NV reminderrr-change"}
                      style={{ width: 250, height: 220}}>
                     
                     <div className={classes.root}>
@@ -141,19 +174,30 @@ const DisplayIcons = ({ item,GetNote, props }) => {
                 </div>
             ) : null}
       
-            {showDateTime ? (
-              <div className={reminder ? "visible reminderrr-change" : "NV reminderrr-change"}
-              style={{ width: 250, height: 220 }}>  
+      {showDateTime ? (
+              <div className={reminders ? "visible reminderrr-change" : "NV reminderrr-change"}
+              style={{ width: 250, height: 220 }}>
               <div className={classes.root}>
-              <List component="nav" >
-                <ListItem >
+                <List component="nav" >
+                  <ListItem >
                     <ArrowBackIcon style={{ marginRight: "7%", cursor: "pointer" }} onClick={() => setShowDateTime(!showDateTime)} />
                     <ListItemText  primary="Pick date & time:" />
-                </ListItem>
+                  </ListItem>
                 <Divider />
+                <ListItem id="dateTimeText">
+                <TextField id="textDateTime" type="date" onChange={e => setSelectedDate(e.currentTarget.value)}></TextField>
+                </ListItem>
+                <ListItem id="dateTimeText">
+                <TextField id="textDateTime"  type="time" onChange={e => setSelectedTime(e.currentTarget.value)}></TextField>
+                </ListItem>
+                <ListItem id="saveButton">
+                <Button variant="outlined" onClick={() =>  setShowChip(!showChip),UpdateReminders } >
+                  Save
+                </Button>
+                </ListItem>
                 </List>
+                
               </div>
-              <Divider />
               </div>
             ) : null}
             {/* ------------------------- */}
@@ -168,17 +212,19 @@ const DisplayIcons = ({ item,GetNote, props }) => {
                 <ColorLensOutlinedIcon fontSize="small" onMouseOver={handleColor} />
             </IconButton>
             </Tooltip>
+           
             {showColorList ? (
-                <div className={color ? "visible color-change" : "NV color-change"}
+                <div className={colors ? "visible color-change" : "NV color-change"}
                     onMouseOver={handleColor} onMouseOut={handleColorOut} style={{ width: 150, height: 125 }}>
-                    {DATA.map((item) => (
-                        <button onMouseOver={handleColor} onClick={() => { selectColor(item.id); }}
-                            className="button-color"
-                            style={{ backgroundColor: item.id }}
+                    {DATA.map((items) => (
+                        <button onMouseOver={handleColor} onClick={() => { setBgColor=items.id; ChangeColors();}}
+                            className="button-color" 
+                            style={{ backgroundColor: items.id }}
                         ></button>
                     ))}
                 </div>
             ) : null}
+           
             <Tooltip title="Add image">
             <IconButton aria-label="Add image">
                 <ImageOutlinedIcon fontSize="small" />

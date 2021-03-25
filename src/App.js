@@ -12,23 +12,24 @@ import Archive from '../src/components/Archive/Archive.jsx'
 import DisplayIcons from '../src/components/DisplayIcon/DisplayIcon.jsx'
 import DisplayTrash from '../src/components/Display/DisplayTrash/DisplayTrash.jsx'
 import DisplayReminder from '../src/components/Display/DisplayReminder/DisplayReminder.jsx'
-import RemiderExmaple from '../src/components/Note/ReminderExample.jsx'
+import PrivateRoute from '../src/authGuard/PrivateRoute.jsx'
+
 function App() {
   return (
     <div className="App">
      <Router>
       <Switch>
+       
           <Route path="/login" component={ Login } />
           <Route path="/signup" component={ Signup } />
           <Route path="/forgot" component={ Forgot } />
           <Route path="/reset" component={ Reset } />
-          <Route path="/home" component={ Home } />
-          <Route path="/note" component={ Note } />
-          <Route path="/archive" component={ Archive } />
-          <Route path="/trash" component={ DisplayTrash } />
-          <Route path="/icon" component={ DisplayIcons } />
-          <Route path="/reminder" component={ DisplayReminder } />
-          <Route path="/remind" component={RemiderExmaple}/> 
+          <PrivateRoute path="/home" component={ Home } />          
+          <PrivateRoute path="/archive" component={ Archive } /> 
+          <PrivateRoute path="/trash" component={ DisplayTrash } /> 
+          <PrivateRoute path="/reminder" component={ DisplayReminder } />
+          {/* <Route path="/note" component={ Note } /> */}
+          {/* <Route path="/icon" component={ DisplayIcons } /> */}
       </Switch>
       </Router>
     </div>

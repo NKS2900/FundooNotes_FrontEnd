@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 var checkOpen = "close";
 
-export default function AppBarTool(props) {
+export default function AppBarTool({ GetNote }) {
   const [hide, setHide] = useState(false)
   const classes = useStyles();
   const theme = useTheme();
@@ -121,7 +121,7 @@ export default function AppBarTool(props) {
     history.push("/home");
   }
 
-  const handleClickReminder = () =>{
+  const handleClickReminder = () =>{    
     history.push("/reminder");
   }
 

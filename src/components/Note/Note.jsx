@@ -21,8 +21,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import '../Note/note.scss';
 import service  from '../../services/NoteService.js';
-import Pin from '../../assets/pin.jpeg'
-import Unpin from '../../assets/unpin.jpeg'
+import Pin from '../../assets/pin.png'
+import Unpin from '../../assets/unpin.png'
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import {TextField} from "@material-ui/core"
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     }}
 }));
   // creater note rendering with functional component
-  export default function AddNote() {
+  export default function AddNote(props) {
 
     const [open, setOpen] = useState(true);
     const [description, setDescription] = useState('');
@@ -54,15 +54,17 @@ const useStyles = makeStyles((theme) => ({
     const [archive, setArchive] = React.useState(false);
     const [pin, setPin] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [reminders, setReminder]= React.useState(false);
+    const [reminders, setReminders]= React.useState(false);
     const [showReminder, setShowReminder]=React.useState(false);
     const [showDateTime, setShowDateTime] = useState(false);
-    const [selectedDate, setSelectedDate] = React.useState('');
-    const [selectTime, setSelectedTime] = React.useState('');
+    const [selectedDate, setSelectedDate] = React.useState(null);
+    const [selectedTime, setSelectedTime] = React.useState(null);
     const [showChip, setShowChip] = React.useState(false);
+    const [showlabel,setShowLabel] = React.useState(false);
+    //const [reminder, setReminder]= React.useState('');
     const classes = useStyles();
     //const userid=localStorage.getItem('userId');
-    var reminder=selectedDate+" "+selectTime;
+    var reminder=selectedDate+" "+selectedTime;
     
     const DATA = [
       { title: "Default", id: "#fff" },
@@ -116,11 +118,11 @@ const useStyles = makeStyles((theme) => ({
   };
 
   const handleReminder = () => {
-    setReminder(true)
+    setReminders(true)
   }
 
   const handleReminderOut = () => {
-    setReminder(false)
+    setReminders(false)
   }
 
   const handleChipDelete = () => {
@@ -132,7 +134,9 @@ const useStyles = makeStyles((theme) => ({
   }
 
     const AddNewNote = () => {
-      
+      if(selectedTime === null || selectedDate === null){
+        reminder=null;
+      }
       console.log(reminder);
       const data ={ 
               title,
@@ -148,24 +152,30 @@ const useStyles = makeStyles((theme) => ({
       if (title !== "" || description !== "") {
         service.addNote(data)
           .then((response) => {
+            props.GetNote()
             if(response.status === 200){
               setTitle("");
               setDescription("");
               setBgcolor("");
               setPin(false);
               setArchive(false);
-              //window.location.reload();
+              setSelectedDate('');
+              setSelectedTime('');
             console.log("Note added Sucessfully")
             }
           })
           .catch(() => {
             console.log("Some Error Occured while processing request")
             setBgcolor("");
+            setSelectedDate('');
+            setSelectedTime('');
             setPin(false);
           });
       } else {
         setBgcolor("");
         setPin(false);
+        setSelectedDate('');
+        setSelectedTime('');
         console.log("Title and description cannot be empty")
       }
     };
@@ -259,7 +269,6 @@ const useStyles = makeStyles((theme) => ({
                 </Button>
                 </ListItem>
                 </List>
-                
               </div>
               </div>
             ) : null}
@@ -298,10 +307,32 @@ const useStyles = makeStyles((theme) => ({
                 open={Boolean(anchorEl)}
                 onClose={handleClose}>
                 <MenuItem onClick={() => {
-                    handleClose();
-                    
+                    handleClose(); setShowLabel(!showlabel)
                 }}>Add Label</MenuItem>
             </Menu>
+            {showlabel ? (
+              <div className={reminders ? "visible reminderr-change" : "NV reminderr-change"}
+              style={{ width: 150, height: 100 }}>
+              <div className={classes.root}>
+                <List component="nav" >
+                  <ListItem >
+                    <ListItemText  primary="Label" />
+                  </ListItem>
+                <Divider />
+                <ListItem id="dateTimeText">
+                <TextField id="textDateTime" type="text" ></TextField>
+                </ListItem>
+                <ListItem id="saveButton">
+                <Button variant="outlined" >
+                  Create
+                </Button>
+                </ListItem>
+                </List>
+              </div>
+              </div>
+            ) : null}
+
+
               <div className="close-button">
                 <Button size="small" onClick={() => { AddNewNote(); handleSignout(); }} >Close</Button>
               </div>

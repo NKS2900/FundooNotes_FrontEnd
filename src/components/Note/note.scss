@@ -150,7 +150,7 @@
 
 
 /*media queries for create not app*/
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
     .notes {
         width: max-content;
     }
@@ -170,6 +170,8 @@
         display: flex;
         margin-top: auto;
         padding-right: 20px;
+        
+        width: fit-content;
 
     }
 }

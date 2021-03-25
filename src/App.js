@@ -19,7 +19,11 @@ function App() {
     <div className="App">
      <Router>
       <Switch>
+<<<<<<< HEAD
        
+=======
+          <Route path="/" exact component={Login}/>
+>>>>>>> bda4f42dbdd974627ceb408df403098b0d14b372
           <Route path="/login" component={ Login } />
           <Route path="/signup" component={ Signup } />
           <Route path="/forgot" component={ Forgot } />
